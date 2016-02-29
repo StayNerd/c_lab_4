@@ -1,0 +1,157 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+
+// Written by Nicholas A. Ivanoff
+// CSCI 112 02/23/2016
+
+
+// displays user menu, reads input, and validates input
+int user_menu();
+
+// Equation functions that are pass by reference
+void equation1(float *);            // calculate motion equation 1
+void equation2(float *);            // calculate motion equation 2
+void equation3(float *);            // calculate motion equation 3
+void equation4(float *);            // calculate motion equation 4
+
+// User input functions return a value from user
+float get_position_initial(void);   // Prompts user for x0
+float get_position_final(void);     // Prompts user for xf
+float get_velocity_initial(void);   // Prompts user for v0
+float get_velocity_final(void);     // Prompts user for vf
+float get_acceleration(void);       // Prompts user for a
+float get_time(void);               // Prompts user for t
+
+
+
+int main (void) // Runs the main, prints title and user menu.
+{
+    printf("Welcome to the MOTION EQUATION CALCULATOR\n\n"); // Prints welcome message.
+
+    int user_choice; // Variable for the user choice menu.
+    do
+    {
+        user_choice = user_menu();  // print menu, validate choice is between 1 and 5
+
+        // You will pass the address of this variable to your equation functions.
+
+        float result; // Variable to hold calculated result
+
+        switch( user_choice ) // Handle menu choice selected by user
+        {
+            case 1:
+                equation1(&result); // final velocity 1
+                break;
+
+            case 2:
+                equation2(&result); // final position 1
+                break;
+
+            case 3:
+                equation3(&result); // final velocity 2
+                break;
+
+            case 4:
+                equation4(&result); // final position 2
+                break;
+
+            case 5: // Quit program
+
+                printf("Thank you for using the MOTION EQUATION CALCULATOR. Goodbye.\n");
+                return 0;
+                break;
+        }
+
+        printf("Your result is %.4f.\n\n", result); // Print out the calculated result with four digits after the decimal place
+
+
+    } while ( user_choice != 5 );
+
+    return 0; // exit with no error
+}
+
+int user_menu(void) // initial menu
+{
+    int temp;
+    printf("Press keys 1-5 to calculate the final velocity (keys 1 and 3), final position (keys 2 and 4), and quit the program (5).");
+    scanf("%d", &temp);
+    return temp;
+}
+
+
+float get_position_initial(void) // prompts user for initial position and holds in a temp.
+{
+    float temp;
+    printf("Please enter an initial position.");
+    scanf("%f", &temp);
+    return temp;
+}
+
+float get_position_final(void) // prompts user for final position and holds in a temp.
+{
+    float temp;
+    printf("Please enter an final position.");
+    scanf("%f", &temp);
+    return temp;
+}
+
+float get_velocity_initial(void) // prompts user for initial velocity and holds in a temp.
+{
+    float temp;
+    printf("Please enter an initial velocity.");
+    scanf("%f", &temp);
+    return temp;
+}
+
+float get_velocity_final(void) // prompts user for final velocity and holds in a temp.
+{
+    float temp;
+    printf("Please enter an final velocity.");
+    scanf("%f", &temp);
+    return temp;
+}
+
+float get_acceleration(void) // prompts user for acceleration and holds in a temp.
+{
+    float temp;
+    printf("Please enter the acceleration.");
+    scanf("%f", &temp);
+    return temp;
+}
+
+float get_time(void) // prompts user for time and holds in a temp.
+{
+    float temp;
+    printf("Please enter the time.");
+    scanf("%f", &temp);
+    return temp;
+}
+
+// Below all of the functions that were placed in temp holders are now passed into these equations and output results.
+
+void equation1(float * EqPointer){
+    printf("Equation One.\n");
+    *EqPointer = get_velocity_initial() + get_acceleration() * get_time();
+
+}
+
+void equation2(float * EqPointer){
+    printf("Equation Two.\n");
+    float f = get_time();
+    *EqPointer = get_position_initial() + get_velocity_initial() * f + 0.5 * get_acceleration() * f*f;
+
+}
+
+void equation3(float * EqPointer){
+    printf("Equation Three.\n");
+    float f = get_velocity_initial();
+    *EqPointer = sqrtf(f*f+2 * get_acceleration() * (get_position_final()-get_position_initial()));
+
+}
+
+void equation4(float * EqPointer){
+    printf("Equation Four.\n");
+    *EqPointer = get_position_initial() + 0.5 *(get_velocity_final() + get_velocity_initial()* get_time());
+
+}
